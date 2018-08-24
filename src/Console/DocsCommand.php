@@ -170,7 +170,7 @@ class DocsCommand extends BaseCommand
     protected function generate(array $docsMetadata, array $parameters): int
     {
         $templatePath = __DIR__ . '/../../resources';
-        $generator    = new TwigGenerator($templatePath, $this->getCachePath());
+        $generator    = new TwigGenerator([$templatePath], $this->getCachePath());
 
         if (!$this->_pathUtil->isAbsolute($parameters['output'])) {
             $parameters['output'] = $this->_pathUtil->join($this->_workDir, $parameters['output']);

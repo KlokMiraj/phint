@@ -212,7 +212,7 @@ class TestCommand extends BaseCommand
     protected function generate(array $testMetadata): int
     {
         $templatePath = __DIR__ . '/../../resources';
-        $generator    = new TwigGenerator($templatePath, $this->getCachePath());
+        $generator    = new TwigGenerator([$templatePath], $this->getCachePath());
 
         return $generator->generateTests($testMetadata, $this->values());
     }

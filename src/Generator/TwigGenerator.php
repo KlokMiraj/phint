@@ -25,7 +25,7 @@ class TwigGenerator implements GeneratorInterface
     /** @var Inflector */
     protected $inflector;
 
-    /** @var string|array */
+    /** @var array */
     protected $templatePath;
 
     /** @var string */
@@ -43,9 +43,9 @@ class TwigGenerator implements GeneratorInterface
         'docs' => true,
     ];
 
-    public function __construct(string $templatePath, string $cachePath)
+    public function __construct(array $templatePaths, string $cachePath)
     {
-        $this->templatePath = $templatePath;
+        $this->templatePath = $templatePaths;
         $this->cachePath    = $cachePath;
         $this->pathUtil     = new Path;
         $this->inflector    = new Inflector;
@@ -62,7 +62,8 @@ class TwigGenerator implements GeneratorInterface
             $this->initTwig();
         }
 
-        $templates = $this->pathUtil->findFiles([$this->templatePath], '.twig', false);
+        $templates = $this->pathUtil->findFiles($this->templatePath, '.twig', false);
+        print_r($templates);die;
         foreach ($templates as $template) {
             if ($this->shouldGenerate($template, $parameters)) {
                 $generated += (int) $this->doGenerate($template, $targetPath, $parameters, $handler);
@@ -198,6 +199,10 @@ class TwigGenerator implements GeneratorInterface
 
         if (isset($this->commandTemplates[$name])) {
             return false;
+        }
+
+        if (false === ($parameters['travis'] ?? null)) {
+            return $name !== '.travis.yml';
         }
 
         return true;
