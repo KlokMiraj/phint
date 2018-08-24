@@ -63,7 +63,8 @@ class TwigGenerator implements GeneratorInterface
         }
 
         $templates = $this->pathUtil->findFiles($this->templatePath, '.twig', false);
-        print_r($templates);die;
+        print_r($templates);
+        die;
         foreach ($templates as $template) {
             if ($this->shouldGenerate($template, $parameters)) {
                 $generated += (int) $this->doGenerate($template, $targetPath, $parameters, $handler);
